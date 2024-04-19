@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Viewer</title>
+    <style>
+        button {
+            margin: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Image Viewer</h1>
+    <button id="viewerButton">Viewer</button>
+    <button id="previousButton">Previous</button>
+    <button id="nextButton">Next</button>
+
+    <script>
+        // Array to hold image paths
+        const images = ['maps/img1.jpg', 'maps/img2.jpg', 'maps/img3.jpg'];
+        // Current image index
+        let currentIndex = 0;
+        // Reference to the new window
+        let viewerWindow = null;
+
+        // Function to open the viewer window
+        function openViewer() {
+            if (!viewerWindow || viewerWindow.closed) {
+                // Open a new window
+                viewerWindow = window.open('', '_blank', 'width=800,height=450');
+                // Load the current image
+                viewerWindow.document.write(`<img src="${images[currentIndex]}" style="width:100%;height:100%;">`);
+            } else {
+                // Update the current image in the existing window
+                viewerWindow.document.body.innerHTML = `<img src="${images[currentIndex]}" style="width:100%;height:100%;">`;
+            }
+        }
+
+        // Function to show the previous image
+        function showPreviousImage() {
+            // Move to the previous image index
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            openViewer();
+        }
+
+        // Function to show the next image
+        function showNextImage() {
+            // Move to the next image index
+            currentIndex = (currentIndex + 1) % images.length;
+            openViewer();
+        }
+
+        // Add event listeners to buttons
+        document.getElementById('viewerButton').addEventListener('click', openViewer);
+        document.getElementById('previousButton').addEventListener('click', showPreviousImage);
+        document.getElementById('nextButton').addEventListener('click', showNextImage);
+    </script>
+</body>
+
+</html>
